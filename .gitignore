@@ -15,18 +15,17 @@ build/
 venv/
 ENV/
 
-# 데이터 파일
-data/
-*.csv
-*.xlsx
+# 데이터 파일 (큰 파일들만 제외)
+data/stock_data.csv
+data/stock_data_with_indicators.csv
 *.pickle
 *.pkl
 
-# 결과 파일
-results/
+# 결과 파일은 포함 (중요한 분석 결과이므로)
+# results/ 폴더는 커밋에 포함
+
+# 기타 출력 파일
 output/
-*.png
-*.jpg
 
 # IDE
 .vscode/
