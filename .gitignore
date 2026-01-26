@@ -1,0 +1,44 @@
+# Python
+*.pyc
+*.pyo
+*.pyd
+__pycache__/
+*.so
+*.egg
+*.egg-info
+dist/
+build/
+
+# 환경 변수
+.env
+.venv
+venv/
+ENV/
+
+# 데이터 파일
+data/
+*.csv
+*.xlsx
+*.pickle
+*.pkl
+
+# 결과 파일
+results/
+output/
+*.png
+*.jpg
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Jupyter Notebook
+.ipynb_checkpoints/
+*.ipynb
+
+# OS
+.DS_Store
+Thumbs.db
