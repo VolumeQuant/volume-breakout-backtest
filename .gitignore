@@ -18,6 +18,7 @@ ENV/
 # 데이터 파일 (큰 파일들만 제외)
 data/stock_data.csv
 data/stock_data_with_indicators.csv
+data/investor_flow_data*.csv
 *.pickle
 *.pkl
 
