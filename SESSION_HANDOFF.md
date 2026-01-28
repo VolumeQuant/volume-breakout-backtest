@@ -1354,3 +1354,150 @@ results/p3/
 - Phase 3-3 필터 (개인 1D BUY): IS 수익률 & 시그널 수 최고
 
 **권장:** 두 필터 병행 운용 또는 시장 상황에 따라 선택
+
+---
+
+## 🔬 Phase 3-3 Extended: Multi-Duration Tournament ✅ (2026-01-29)
+
+### 가설 (Hypothesis)
+
+**"20일 보유 전략에는 그에 맞는 누적 수급(Accumulated Supply) 분석이 필요하다"**
+
+### 실험 설계
+
+```
+Duration List: [1, 3, 5, 7, 10, 20] days
+
+Track A: Constrained Combinatorial (Anti-Overfitting)
+- 4C_3 (3주체): 반드시 1개 이상의 SELL 포함
+- 4C_4 (4주체): 반드시 2개 이상의 SELL 포함
+
+Track B: Classic Academic with D-Day Accumulated Supply
+Track C: Z-Score on D-Day Accumulated Supply
+
+Rolling Sum: 각 Duration에 대해 D일간 누적 수급 계산
+Z-Score: (D-day sum - 60일 rolling mean) / std
+```
+
+### 가설 검증 결과: REJECTED
+
+| Duration | 평균 OOS Return |
+|----------|-----------------|
+| **1D** | **8.77%** (Best) |
+| 3D | 8.63% |
+| 5D | 8.34% |
+| 7D | 8.46% |
+| 10D | 8.07% |
+| 20D | 8.32% |
+
+```
+20D Supply Analysis avg: 8.32%
+Other Durations avg:     8.46%
+
+Result: REJECTED - 단기 수급(1D, 3D)이 오히려 더 예측력이 좋음
+```
+
+### Top 전략 (OOS Performance)
+
+**Track A: Constrained Combinatorial**
+| Rank | Strategy | Duration | Return | WinRate | Signals |
+|------|----------|----------|--------|---------|---------|
+| 1 | Retail_SELL & Foreign_SELL & Pension_SELL | 20D | 18.43% | 63.6% | 11 ⚠️ |
+| 2 | Retail_BUY & Foreign_SELL & FinInvest_BUY & Pension_SELL | 3D | 16.91% | 63.5% | - |
+
+**Track B: Classic Academic**
+| Rank | Strategy | Duration | Return | WinRate |
+|------|----------|----------|--------|---------|
+| 1 | **Pension_SELL** | **3D** | **11.72%** | **58.1%** |
+| 2 | Pension_SELL | 1D | 11.50% | 56.9% |
+| 3 | Pension_SELL | 5D | 10.77% | 58.2% |
+
+**Track C: Z-Score**
+| Rank | Strategy | Duration | Return | WinRate |
+|------|----------|----------|--------|---------|
+| 1 | **Pension_Z < -1** | **3D** | **11.93%** | **56.0%** |
+| 2 | Pension_Z < -1 | 1D | 11.75% | 58.2% |
+| 3 | Retail_Z < -2 | 20D | 10.71% | 56.4% |
+
+### Key Findings
+
+1. **연기금 SELL이 핵심 팩터**
+   - 모든 Track에서 연기금 SELL 전략이 상위권
+   - 연기금이 매도할 때 매수하면 수익
+
+2. **가설 기각: 단기 수급이 더 효과적**
+   - 20일 보유에 20일 누적 수급이 필요하다는 가설 기각
+   - 오히려 1~3일 단기 수급이 더 예측력 높음
+   - 해석: "당일/최근 며칠의 급격한 수급 변화가 중요"
+
+3. **Anti-Overfitting 제약의 한계**
+   - Must-SELL 제약에도 Track A Top 1은 시그널 11건 (과적합 위험)
+   - 시그널 수 100건 이상인 전략만 실전 적용 권장
+
+4. **실전 적용 권장 전략**
+
+```python
+# 신뢰할 수 있는 전략 (충분한 시그널 + 높은 수익률)
+RELIABLE_STRATEGIES = {
+    'Pension_SELL_3D': {
+        'track': 'B',
+        'condition': '연기금 3D 누적 <= 0',
+        'oos_return': 11.72,
+        'oos_winrate': 58.1,
+    },
+    'Pension_Z_lt_neg1_3D': {
+        'track': 'C',
+        'condition': '연기금 3D Z-Score < -1.0',
+        'oos_return': 11.93,
+        'oos_winrate': 56.0,
+    },
+}
+```
+
+### Files Generated
+- `src/phase3/p3_03_multi_duration_tournament.py`
+- `results/p3_03_multi_duration_results.csv`
+- `results/p3_03_multi_duration_heatmap.csv`
+
+---
+
+## 📊 Phase 3 전체 토너먼트 요약
+
+### Triple Tournament 결과 (Phase 3-3)
+
+| Track | Philosophy | Champion | OOS Return | Status |
+|-------|------------|----------|------------|--------|
+| A | Combinatorial | Retail_SELL & Foreign_SELL & Pension_SELL | 18.43% | ⚠️ 과적합 (11건) |
+| **B** | **Classic** | **Handover** | **8.48%** | **WINNER** |
+| C | Z-Score | Foreigner_Extreme_Buy | 8.06% | Runner-up |
+
+### Multi-Duration Tournament 결과 (Phase 3-3 Extended)
+
+| Track | Best Strategy | Duration | OOS Return | Status |
+|-------|---------------|----------|------------|--------|
+| A | Retail_SELL & Foreign_SELL & Pension_SELL | 20D | 18.43% | ⚠️ 과적합 |
+| **B** | **Pension_SELL** | **3D** | **11.72%** | **신뢰 가능** |
+| **C** | **Pension_Z < -1** | **3D** | **11.93%** | **신뢰 가능** |
+
+### 최종 권장 전략 (Phase 3 종합)
+
+```python
+FINAL_GOLDEN_STRATEGY = {
+    # Stage 1: Rough Signal
+    'VR_threshold': 3.0,
+    'Price_threshold': 5.0,
+
+    # Stage 2: Quality Filter (택1)
+    'filters': {
+        'Option A': 'Handover (개인 SELL & 스마트머니 BUY)',  # 8.48%
+        'Option B': 'Pension_SELL_3D (연기금 3일 <= 0)',      # 11.72%
+        'Option C': 'Pension_Z_3D < -1',                      # 11.93%
+    },
+
+    # 보유 기간
+    'holding_period': 20,
+
+    # 기대 성과 범위
+    'expected_return': '8~12%',
+    'expected_winrate': '56~58%',
+}
