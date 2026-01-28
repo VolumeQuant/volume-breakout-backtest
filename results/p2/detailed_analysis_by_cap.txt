@@ -1,0 +1,81 @@
+================================================================================
+Cap Type Analysis - Performance Comparison
+================================================================================
+
+### ALL CAP ###
+Total combinations: 835 -> Filtered (>=10 signals): 475
+
+Return 10D:
+  Mean: 2.19%
+  Median: 1.79%
+  Std: 4.99%
+  Min/Max: -12.98% / 21.70%
+
+Win Rate:
+  Mean: 44.2%
+  Median: 45.5%
+
+Sharpe Ratio:
+  Mean: 0.083
+  Median: 0.106
+
+Signal Count:
+  Mean: 22.8
+  Median: 16.0
+
+--- TOP 3 by Expectancy ---
+  #1: VR=6.0, Price=12%, Return=21.70%, WR=45.5%, Exp=21.70
+  #2: VR=6.0, Price=10%, Return=21.70%, WR=45.5%, Exp=21.70
+  #3: VR=5.0, Price=15%, Return=20.03%, WR=40.0%, Exp=20.03
+
+### LARGE CAP ###
+Total combinations: 336 -> Filtered (>=10 signals): 84
+
+Return 10D:
+  Mean: 4.83%
+  Median: 5.03%
+  Std: 7.08%
+  Min/Max: -14.91% / 19.54%
+
+Win Rate:
+  Mean: 46.9%
+  Median: 48.1%
+
+Sharpe Ratio:
+  Mean: 0.180
+  Median: 0.257
+
+Signal Count:
+  Mean: 18.8
+  Median: 14.0
+
+--- TOP 3 by Expectancy ---
+  #1: VR=3.0, Price=5%, Return=19.54%, WR=50.0%, Exp=19.54
+  #2: VR=3.0, Price=7%, Return=17.97%, WR=58.3%, Exp=17.97
+  #3: VR=3.0, Price=10%, Return=17.46%, WR=50.0%, Exp=17.46
+
+### SMALL CAP ###
+Total combinations: 647 -> Filtered (>=10 signals): 300
+
+Return 10D:
+  Mean: 1.62%
+  Median: 1.61%
+  Std: 4.25%
+  Min/Max: -11.18% / 11.74%
+
+Win Rate:
+  Mean: 44.6%
+  Median: 45.5%
+
+Sharpe Ratio:
+  Mean: 0.066
+  Median: 0.098
+
+Signal Count:
+  Mean: 19.9
+  Median: 15.0
+
+--- TOP 3 by Expectancy ---
+  #1: VR=6.0, Price=10%, Return=11.74%, WR=66.7%, Exp=11.74
+  #2: VR=6.0, Price=7%, Return=11.54%, WR=70.6%, Exp=11.54
+  #3: VR=6.0, Price=12%, Return=11.27%, WR=61.5%, Exp=11.27
