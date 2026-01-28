@@ -1,0 +1,25 @@
+﻿Investor,Duration,Direction,Correlation,Pattern,Data_Points
+개인,10,SELL,0.0,Non-linear (inflection exists),10
+개인,10,BUY,0.0,Non-linear (inflection exists),11
+개인,30,SELL,,Non-linear (inflection exists),10
+개인,30,BUY,0.0,Non-linear (inflection exists),11
+개인,50,SELL,0.0,Non-linear (inflection exists),10
+개인,50,BUY,0.0,Non-linear (inflection exists),11
+외국인,10,SELL,,Non-linear (inflection exists),10
+외국인,10,BUY,0.5,Non-linear (inflection exists),11
+외국인,30,SELL,0.0,Non-linear (inflection exists),10
+외국인,30,BUY,0.5,Non-linear (inflection exists),11
+외국인,50,SELL,,Non-linear (inflection exists),10
+외국인,50,BUY,0.5000000000000001,Linear(+): Stronger BUY = Higher Return,11
+금융투자,10,SELL,1.656387808928251e-16,Non-linear (inflection exists),51
+금융투자,10,BUY,,Non-linear (inflection exists),50
+금융투자,30,SELL,,Non-linear (inflection exists),10
+금융투자,30,BUY,0.5000000000000001,Linear(+): Stronger BUY = Higher Return,11
+금융투자,50,SELL,,Non-linear (inflection exists),10
+금융투자,50,BUY,-0.49999999999999994,Non-linear (inflection exists),11
+연기금,10,SELL,,Non-linear (inflection exists),10
+연기금,10,BUY,-0.5000000000000002,Linear(-): Stronger BUY = Lower Return,11
+연기금,30,SELL,-1.656387808928251e-16,Non-linear (inflection exists),51
+연기금,30,BUY,,Non-linear (inflection exists),50
+연기금,50,SELL,0.0,Non-linear (inflection exists),10
+연기금,50,BUY,-0.5,Non-linear (inflection exists),11
