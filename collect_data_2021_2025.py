@@ -60,7 +60,9 @@ def main():
         lambda x: (x.shift(-20) / x - 1) * 100
     )
 
-    # 저장
+    # 인덱스(Date)를 컬럼으로 변환 후 저장
+    all_stock_data = all_stock_data.reset_index()
+    all_stock_data = all_stock_data.rename(columns={'index': 'Date'})
     all_stock_data.to_csv('data/stock_data_with_indicators.csv',
                           index=False, encoding='utf-8-sig')
     print(f"주가 데이터 저장 완료: data/stock_data_with_indicators.csv")
@@ -82,7 +84,7 @@ def main():
     print("\n" + "="*80)
     print("데이터 수집 완료!")
     print("="*80)
-    print(f"주가 데이터: {len(stock_data_with_indicators):,}행")
+    print(f"주가 데이터: {len(all_stock_data):,}행")
     print(f"수급 데이터: {len(all_flow_data):,}행")
     print(f"종목 수: {len(stock_list)}개")
     print(f"기간: 2021-01-01 ~ 2025-12-31")

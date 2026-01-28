@@ -225,7 +225,7 @@ def main():
     for market_name, threshold in [('KOSPI200', 1.5), ('KOSDAQ150', 2.5)]:
         print(f"\n   {market_name} 필터링 (임계치: {threshold}%)...")
 
-        # 생존자 편향 제거 필터링
+        # 생존자 편향 제거 필터링 (5년 데이터 기준)
         market_data, stable_codes, excluded = filter_stable_constituents(
             merged, stock_list, market_name, required_years=5
         )

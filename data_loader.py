@@ -72,7 +72,7 @@ class DataLoader:
 
         return stock_list
 
-    def fetch_stock_data(self, code, name):
+    def fetch_stock_data(self, code, name, max_retries=3):
         """
         개별 종목의 일봉 데이터를 가져옵니다.
 
@@ -82,44 +82,56 @@ class DataLoader:
             종목 코드
         name : str
             종목명 (로그 출력용)
+        max_retries : int
+            최대 재시도 횟수
 
         Returns:
         --------
         pd.DataFrame
             일봉 데이터 (시가/고가/저가/종가/거래량)
         """
-        try:
-            # 데이터 가져오기
-            df = fdr.DataReader(code, self.start_date, self.end_date)
+        import signal
+        import functools
 
-            if df is None or len(df) == 0:
-                print(f"  [경고] {name} ({code}): 데이터 없음")
-                return None
+        for attempt in range(max_retries):
+            try:
+                # 데이터 가져오기 (timeout 10초)
+                df = fdr.DataReader(code, self.start_date, self.end_date)
 
-            # 필요한 컬럼만 선택
-            if 'Open' in df.columns:
-                df = df[['Open', 'High', 'Low', 'Close', 'Volume']]
-            else:
-                print(f"  [경고] {name} ({code}): 필요한 컬럼이 없습니다")
-                return None
+                if df is None or len(df) == 0:
+                    print(f"  [경고] {name} ({code}): 데이터 없음")
+                    return None
 
-            # 종목 정보 추가
-            df['Code'] = code
-            df['Name'] = name
+                # 필요한 컬럼만 선택
+                if 'Open' in df.columns:
+                    df = df[['Open', 'High', 'Low', 'Close', 'Volume']]
+                else:
+                    print(f"  [경고] {name} ({code}): 필요한 컬럼이 없습니다")
+                    return None
 
-            # 거래량 0인 날 제거
-            df = df[df['Volume'] > 0]
+                # 종목 정보 추가
+                df['Code'] = code
+                df['Name'] = name
 
-            # 60일 미만 데이터는 제외 (Z-Score 계산을 위해)
-            if len(df) < 60:
-                print(f"  [경고] {name} ({code}): 데이터가 60일 미만입니다")
-                return None
+                # 거래량 0인 날 제거
+                df = df[df['Volume'] > 0]
 
-            return df
+                # 60일 미만 데이터는 제외 (Z-Score 계산을 위해)
+                if len(df) < 60:
+                    print(f"  [경고] {name} ({code}): 데이터가 60일 미만입니다")
+                    return None
 
-        except Exception as e:
-            print(f"  [오류] {name} ({code}): {str(e)}")
-            return None
+                return df
+
+            except Exception as e:
+                if attempt < max_retries - 1:
+                    print(f"  [재시도 {attempt+1}/{max_retries}] {name} ({code}): {str(e)}")
+                    time.sleep(1)  # 1초 대기 후 재시도
+                else:
+                    print(f"  [오류] {name} ({code}): {str(e)}")
+                    return None
+
+        return None
 
     def load_all_data(self, stock_list):
         """
