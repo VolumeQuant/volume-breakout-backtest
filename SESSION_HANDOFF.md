@@ -675,7 +675,221 @@ python src/phase2/p2_opt_advanced_scan.py
 ---
 
 **작성자**: Claude Sonnet 4.5
-**마지막 업데이트**: 2026-01-28 KST (Phase 2 완료)
-**프로젝트 상태**: ✅ Phase 1 완료, ✅ Phase 2 완료
+**마지막 업데이트**: 2026-01-28 KST (Phase 3 진행 중)
+**프로젝트 상태**: ✅ Phase 1 완료, ✅ Phase 2 완료, 🔄 Phase 3 시작
 
-**다음 마일스톤**: 실시간 시그널 봇 구축 + 2026년 OOS 검증
+**다음 마일스톤**: Phase 3 수급 스코어링 시스템 완성
+
+---
+
+## 🔬 Phase 3: Single-Factor Foundation & Scoring System 🔄
+
+### 배경 및 목표
+
+**Phase 2의 교훈:**
+- 다차원 조합(AND 조건)으로 인한 시그널 급감
+- 과적합(Overfitting) 위험
+- 월 0.4~1.5건 → 실전 불가능
+
+**Phase 3 접근법:**
+```
+"집을 짓기 전 지반의 강도를 체크하라"
+
+1단계: Strong Momentum Capture (힘 좋은 종목)
+   ✓ VR ≥ 4.0
+   ✓ Price ≥ 7%
+   → 월 6.2건 시그널
+
+2단계: Quality Filter (질 좋은 종목)
+   ✓ 1단계 통과 종목 중에서
+   ✓ 수급 스코어링 (Soft Scoring)
+   ✓ 상위 50% 선택
+   → 월 3~4건으로 압축
+```
+
+### Phase 3-1: 기초 분석 완료 (2026-01-28) ✅
+
+**목표**: 단일 요인의 순수한 영향력 파악
+
+**데이터**: 2022-2024 (KOSPI 200 + KOSDAQ 150)
+
+**주요 발견:**
+
+| Market | VR 임계치 | 시그널 수 | 10일 수익률 | 승률 |
+|--------|----------|----------|------------|------|
+| KOSPI 200 | ≥ 2.0 | 7,242건 | 0.29% | 45.9% |
+| KOSPI 200 | ≥ 3.0 | 2,509건 | 0.14% | 44.2% |
+| KOSPI 200 | ≥ 4.0 | 1,240건 | -0.04% | 43.6% |
+| **KOSDAQ 150** | **≥ 3.0** | **2,947건** | **1.94%** | **47.3%** |
+| **KOSDAQ 150** | **≥ 5.0** | **1,074건** | **2.38%** | **47.2%** |
+| **KOSDAQ 150** | **≥ 6.0** | **740건** | **2.59%** | **47.8%** |
+
+**인사이트:**
+1. **KOSDAQ이 KOSPI보다 VR 신호 효과적**
+   - KOSDAQ VR ≥ 6.0: +2.59% (47.8% 승률)
+   - KOSPI VR ≥ 6.0: +0.04% (41.2% 승률)
+
+2. **VR만으로는 충분하지 않음**
+   - 승률 50% 미만
+   - 추가 필터(수급, 가격) 필요
+
+### Phase 3-2: 수급 Duration 분석 (다음 세션)
+
+**목표**: 각 수급 주체의 최적 Duration 탐색
+
+**분석 계획:**
+```python
+Duration: [1, 3, 5, 10, 20, 30, 50일] 누적
+투자자: ['개인', '외국인', '금융투자', '연기금']
+
+각 조합에 대해:
+  - 10일/20일 수익률
+  - 승률
+  - 시그널 수
+
+목표: Golden Duration 확정
+```
+
+**임계치:**
+- KOSPI 200: abs(순매수비중) ≥ 1.5%
+- KOSDAQ 150: abs(순매수비중) ≥ 2.5%
+
+**예상 발견:**
+- 개인: 1일 데이터가 가장 유효? or 3일 누적?
+- 외국인: 장기 누적(10~20일)이 유효?
+- 연기금: 중기 누적(5~10일)?
+
+### Phase 3-3: 스코어링 시스템 설계 (다음 세션)
+
+**목표**: Soft Scoring으로 과적합 회피
+
+```python
+def calculate_supply_score(row, golden_durations):
+    """
+    수급 품질 점수 계산 (0~10점)
+
+    Args:
+        golden_durations: Phase 3-2에서 확정된 최적 Duration
+    """
+    score = 5.0  # 기본 점수
+
+    # 개인 (Golden Duration: ?일)
+    individual_flow = row[f'개인_{golden_durations["개인"]}D_Cumul']
+    if individual_flow < -2.0:
+        score += 2.0  # 강한 순매도
+    elif individual_flow < 0:
+        score += 1.0
+
+    # 외국인 (Golden Duration: ?일)
+    foreign_flow = row[f'외국인_{golden_durations["외국인"]}D_Cumul']
+    if -1.0 < foreign_flow < 2.0:
+        score += 1.5
+
+    # ... (금융투자, 연기금)
+
+    return score
+```
+
+**필터링 전략:**
+```
+Option 1: Percentile-based
+  - Supply_Score 상위 50% 선택
+
+Option 2: Threshold-based
+  - Supply_Score ≥ 6.5
+
+Option 3: Weighted (체급별 차별화)
+  - 대형주: 개인 -0.5, 외국인 -1.0, 연기금 +1.0
+  - 중소형주: 개인 -1.5, 외국인 +0.5, 연기금 +0.5
+```
+
+### Phase 3 예상 성과
+
+**목표:**
+- 시그널: 월 3~4건 (Phase 1의 절반, Phase 2의 3배)
+- 10일 수익률: 5~7% (Phase 1의 1.5배)
+- 승률: 55~60%
+- Sharpe: 1.5~2.0
+
+**장점:**
+1. 과적합 회피 (시그널 충분)
+2. Phase 1 + Phase 2 인사이트 활용
+3. 실전 운용 가능
+4. 확장 가능 (펀더멘털 점수 추가)
+
+---
+
+## 📁 파일 구조 업데이트
+
+```
+volume-breakout-backtest/
+├── src/
+│   ├── phase1/  # Phase 1 탐색
+│   ├── phase2/  # Phase 2 최적화
+│   └── phase3/  # Phase 3 스코어링 (NEW)
+│       └── p3_01_single_factor_foundation_v2.py
+│
+├── results/
+│   ├── p1/      # Phase 1 결과
+│   ├── p2/      # Phase 2 결과
+│   └── p3/      # Phase 3 결과 (NEW)
+│       └── p3_01_vr_baseline.csv
+```
+
+---
+
+## 🎯 다음 세션 작업 내용
+
+### 우선순위 1: Phase 3-2 수급 Duration 분석 ⭐⭐⭐
+
+**작업:**
+1. 수급 데이터 전처리 및 통합
+2. Duration별 (1/3/5/10/20/30/50일) 누적 계산
+3. 각 투자자 × Duration 조합 분석
+4. Golden Duration 확정
+
+**예상 소요**: 2~3시간
+
+### 우선순위 2: Phase 3-3 스코어링 시스템 설계 ⭐⭐
+
+**작업:**
+1. Golden Duration 기반 스코어링 함수 구현
+2. 여러 임계치/Percentile 테스트
+3. Phase 1 데이터로 백테스팅
+4. 최적 전략 확정
+
+**예상 소요**: 2~3시간
+
+### 우선순위 3: Phase 1 vs Phase 3 비교 ⭐
+
+**작업:**
+1. 성과 비교 (시그널/수익률/승률)
+2. 연도별 안정성 비교
+3. 최종 Golden Strategy 확정
+
+---
+
+## ⚠️ 주의 사항
+
+1. **과적합 경계**
+   - 복잡한 조합 지양
+   - 데이터가 말하는 변곡점 찾기
+   - 샘플 수 30개 이상 유지
+
+2. **수급 데이터 품질**
+   - 한글 인코딩 이슈 주의
+   - 비중 vs 거래대금 확인
+   - 결측치 처리
+
+3. **검증**
+   - 2025년 OOS 필수
+   - Phase 1/2와 성과 비교
+   - 실전 투입 전 충분한 검증
+
+---
+
+**작성자**: Claude Sonnet 4.5
+**마지막 업데이트**: 2026-01-28 KST (Phase 3-1 완료)
+**프로젝트 상태**: ✅ Phase 1 완료, ✅ Phase 2 완료, 🔄 Phase 3-1 완료
+
+**다음 마일스톤**: Phase 3-2 Golden Duration 확정
