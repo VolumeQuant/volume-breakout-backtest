@@ -1,0 +1,66 @@
+
+================================================================================
+ALL CAP - TOP 3 GOLDEN DNA (Expectancy-based)
+================================================================================
+
+[DNA #1]
+Entry: VR>=6.0, Price>=12%
+Flow: 개인=1.5-3.5%, 외국인=sell, 금융투자=sell, 연기금=0-1.5%
+Performance: 11 signals (1.22/mo), Return=21.70% (median=-4.31%), WinRate=45.5%
+Metrics: Exp=21.696, Sharpe=0.34, InstRatio=-0.30%, MaxGain=203.60%, MaxLoss=-17.06%
+
+[DNA #2]
+Entry: VR>=6.0, Price>=10%
+Flow: 개인=1.5-3.5%, 외국인=sell, 금융투자=sell, 연기금=0-1.5%
+Performance: 11 signals (1.22/mo), Return=21.70% (median=-4.31%), WinRate=45.5%
+Metrics: Exp=21.696, Sharpe=0.34, InstRatio=-0.30%, MaxGain=203.60%, MaxLoss=-17.06%
+
+[DNA #3]
+Entry: VR>=5.0, Price>=15%
+Flow: 개인=1.5-3.5%, 외국인=sell, 금융투자=sell, 연기금=0-1.5%
+Performance: 10 signals (1.11/mo), Return=20.03% (median=-5.44%), WinRate=40.0%
+Metrics: Exp=20.029, Sharpe=0.30, InstRatio=-0.34%, MaxGain=203.60%, MaxLoss=-13.79%
+
+================================================================================
+LARGE CAP - TOP 3 GOLDEN DNA (Expectancy-based)
+================================================================================
+
+[DNA #1]
+Entry: VR>=3.0, Price>=5%
+Flow: 개인=1.5-3.5%, 외국인=sell, 금융투자=sell, 연기금=0-1.5%
+Performance: 10 signals (1.00/mo), Return=19.54% (median=-2.35%), WinRate=50.0%
+Metrics: Exp=19.541, Sharpe=0.30, InstRatio=-0.25%, MaxGain=203.60%, MaxLoss=-13.61%
+
+[DNA #2]
+Entry: VR>=3.0, Price>=7%
+Flow: 개인=0-1.5%, 외국인=sell, 금융투자=sell, 연기금=0-1.5%
+Performance: 12 signals (1.09/mo), Return=17.97% (median=19.86%), WinRate=58.3%
+Metrics: Exp=17.965, Sharpe=0.62, InstRatio=0.03%, MaxGain=94.74%, MaxLoss=-10.06%
+
+[DNA #3]
+Entry: VR>=3.0, Price>=10%
+Flow: 개인=0-1.5%, 외국인=sell, 금융투자=sell, 연기금=0-1.5%
+Performance: 10 signals (1.00/mo), Return=17.46% (median=9.90%), WinRate=50.0%
+Metrics: Exp=17.458, Sharpe=0.55, InstRatio=0.02%, MaxGain=94.74%, MaxLoss=-10.06%
+
+================================================================================
+SMALL CAP - TOP 3 GOLDEN DNA (Expectancy-based)
+================================================================================
+
+[DNA #1]
+Entry: VR>=6.0, Price>=10%
+Flow: 개인=sell, 외국인=0-1.5%, 금융투자=sell, 연기금=0-1.5%
+Performance: 15 signals (1.50/mo), Return=11.74% (median=6.45%), WinRate=66.7%
+Metrics: Exp=11.743, Sharpe=0.70, InstRatio=0.07%, MaxGain=46.10%, MaxLoss=-9.93%
+
+[DNA #2]
+Entry: VR>=6.0, Price>=7%
+Flow: 개인=sell, 외국인=0-1.5%, 금융투자=sell, 연기금=0-1.5%
+Performance: 17 signals (1.55/mo), Return=11.54% (median=6.45%), WinRate=70.6%
+Metrics: Exp=11.545, Sharpe=0.72, InstRatio=0.13%, MaxGain=46.10%, MaxLoss=-9.93%
+
+[DNA #3]
+Entry: VR>=6.0, Price>=12%
+Flow: 개인=sell, 외국인=0-1.5%, 금융투자=sell, 연기금=0-1.5%
+Performance: 13 signals (1.30/mo), Return=11.27% (median=6.41%), WinRate=61.5%
+Metrics: Exp=11.270, Sharpe=0.63, InstRatio=0.06%, MaxGain=46.10%, MaxLoss=-9.93%
