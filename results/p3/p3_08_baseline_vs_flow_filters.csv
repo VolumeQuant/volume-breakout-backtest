@@ -1,0 +1,7 @@
+﻿Strategy,Period,Years,Total_Signals,Signals_Per_Year,Signals_Per_Week,Avg_Return,Median_Return,Win_Rate,Std,Sharpe
+Baseline,IS (2021-2024),4,3154,788.5,15.2,2.38,-2.02,44.8,23.03,0.103
+Baseline,OOS (2025),1,1187,1187.0,22.8,8.92,2.69,51.1,26.96,0.331
+Pension-SELL,IS (2021-2024),4,603,150.8,2.9,2.53,-2.58,42.6,26.11,0.097
+Pension-SELL,OOS (2025),1,199,199.0,3.8,10.44,2.19,50.3,32.79,0.318
+SS-Sniper,IS (2021-2024),4,59,14.8,0.3,3.3,-0.22,47.5,20.6,0.16
+SS-Sniper,OOS (2025),1,12,12.0,0.2,24.04,8.92,75.0,35.8,0.672
